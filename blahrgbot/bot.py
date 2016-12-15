@@ -86,6 +86,7 @@ def handler_inline(inline_query):
                 str(index),
                 clip[0],
                 clip[1],
+                clip[1]
             )
 
             responses.append(r)
