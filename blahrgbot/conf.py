@@ -42,32 +42,6 @@ SETTINGS = {}
 DB = None
 SCREAM = Query()
 
-# { 'filename': 'file.ogg', 'file_id': 1234 }
-
-def db_get_file_id(clip_name):
-    """Obtain file_id for a specific clip."""
-    result = DB.get(SCREAM.filename == clip_name)
-
-    if not result:
-        return None
-
-    return result['file_id']
-
-def db_set_file_id(clip_name, file_id):
-    """Update or insert the file ID of a clip."""
-    exists = db_get_file_id(clip_name)
-
-    if exists:
-        DB.update({'file_id': file_id}, (SCREAM.filename == clip_name))
-
-    else:
-        DB.insert({'filename': clip_name, 'file_id': file_id})
-
-def db_get_aah():
-    """Return default clip."""
-    #TODO add more
-    return db_get_file_id('aaaah.ogg')
-
 def parse_conf():
     """Parse the configuration file and set relevant variables."""
     conf_path = os.path.abspath(os.getenv('BLAHRG_CONF', ''))

@@ -31,7 +31,8 @@ import logging
 import os
 import telebot
 
-from blahrgbot.conf import SETTINGS, db_get_file_id, db_set_file_id, db_get_aah
+from blahrgbot.conf import SETTINGS
+from blahrgbot.helper import db_get_file_id, db_set_file_id, db_get_all
 
 telebot.logger.setLevel(logging.INFO)
 
@@ -78,11 +79,17 @@ def me(message):
 @bot.inline_handler(lambda query: True)
 def handler_inline(inline_query):
     try:
-        r = telebot.types.InlineQueryResultCachedVoice(
-            '1',
-            db_get_aah(),
-            'AAAAAAAAAAAH',
-        )
-        bot.answer_inline_query(inline_query.id, [r])
+        responses = []
+
+        for index, clip in enumerate(db_get_all()):
+            r = telebot.types.InlineQueryResultCachedVoice(
+                str(index),
+                clip[0],
+                clip[1],
+            )
+
+            responses.append(r)
+
+        bot.answer_inline_query(inline_query.id, responses)
     except Exception as e:
         print(e)
