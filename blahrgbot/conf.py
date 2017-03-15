@@ -52,12 +52,15 @@ def parse_conf():
     parser = ConfigParser()
     parser.read(conf_path)
 
-    # Telegram settings
+    # Telegram bot settings
     SETTINGS['token'] = parser['tg']['token']
     SETTINGS['owner'] = int(parser['tg']['owner'])
 
     # Media directory
     SETTINGS['media'] = os.path.abspath(parser['media']['path'])
+
+    # Whitelist of users that can add screams
+    SETTINGS['whitelist'] = parser['tg']['whitelist']
 
     # TinyDB
     global DB
@@ -65,7 +68,7 @@ def parse_conf():
     DB.table_class = SmartCacheTable
 
 def get_logger(name):
-    """ Get a logger with the given name. """
+    """Get a logger with the given name."""
     # Base logger
     logger = logging.getLogger(name)
     logger.setLevel(logging.DEBUG)

@@ -31,6 +31,17 @@ from blahrgbot.conf import DB, SCREAM
 
 # { 'filename': 'file.ogg', 'file_id': '1234', 'desc': 'description' }
 
+
+def db_field_exists(field, value):
+    """Check if a field with the given value exists."""
+    result = DB.get(SCREAM[field] == value)
+
+    if result:
+        return True
+
+    return False
+
+
 def db_get_all():
     """Return file id and description of all clips.
 
@@ -49,7 +60,7 @@ def db_get_file_id(clip_name):
 
     return result['file_id']
 
-def db_set_file_id(clip_name, file_id):
+def db_set_file_id(clip_name, file_id, desc='NO_DESC'):
     """Update or insert the file ID of a clip."""
     exists = db_get_file_id(clip_name)
 
@@ -57,4 +68,4 @@ def db_set_file_id(clip_name, file_id):
         DB.update({'file_id': file_id}, (SCREAM.filename == clip_name))
 
     else:
-        DB.insert({'filename': clip_name, 'file_id': file_id, 'desc': 'NO_DESC'})
+        DB.insert({'filename': clip_name, 'file_id': file_id, 'desc': desc})
