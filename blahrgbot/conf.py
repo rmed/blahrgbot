@@ -60,7 +60,7 @@ def parse_conf():
     SETTINGS['media'] = os.path.abspath(parser['media']['path'])
 
     # Whitelist of users that can add screams
-    SETTINGS['whitelist'] = parser['tg']['whitelist']
+    SETTINGS['whitelist'] = parser['tg']['whitelist'].split(' ')
 
     # TinyDB
     global DB
