@@ -145,7 +145,8 @@ def process_add_desc(message, description):
     # Ask for file
     msg = bot.send_message(
         chat_id,
-        'Please send me the voice clip (.ogg)'
+        'Please send me the voice clip (.ogg)\n\n'
+        'I will send it back to get and ID for the clip'
     )
 
     bot.register_next_step_handler(
@@ -167,7 +168,8 @@ def process_add_clip(message, description):
     if message.content_type != 'audio':
         msg = bot.send_message(
             chat_id,
-            'Please send me the voice clip (.ogg)'
+            'Please send me the voice clip (.ogg)\n\n'
+            'I will send it back to get and ID for the clip'
         )
 
         bot.register_next_step_handler(
@@ -186,8 +188,11 @@ def process_add_clip(message, description):
     with open(os.path.join(SETTINGS['media'], file_name), 'wb') as f:
         f.write(downloaded_file)
 
+    # Send voice clip to get ID
+    voice_msg = bot.send_voice(message.chat.id, downloaded_file)
+
     # Update database
-    db_set_file_id(file_name, message.audio.file_id, description)
+    db_set_file_id(file_name, voice_msg.voice.file_id, description)
 
     bot.send_message(chat_id, 'New clip added')
 
