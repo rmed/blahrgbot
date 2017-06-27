@@ -1,4 +1,4 @@
 pyTelegramBotAPI==3.0.1
 awesome-slugify==1.6.5
-tinydb==3.3.0
+tinydb==3.3.1
 tinydb-smartcache==1.0.2
